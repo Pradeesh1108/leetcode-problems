@@ -1,0 +1,38 @@
+class Solution:
+    def totalNQueens(self, n: int) -> int:
+
+        def backTrack(r):
+            if r == n:
+                copy = board[:]
+                ans.append(copy)
+
+                return
+
+            
+            for c in range(n):
+                if c in placedCol or r + c in placedPos or r - c in placedNeg:
+                    continue
+
+                board[r][c] = 'Q'
+                placedCol.add(c)
+                placedPos.add(r+c)
+                placedNeg.add(r-c)
+
+                backTrack(r+1)
+
+
+                board[r][c] = '.'
+                placedCol.remove(c)
+                placedPos.remove(r+c)
+                placedNeg.remove(r-c)
+
+        board = [['.'] * n for _ in range(n)]
+        placedCol = set()
+        placedPos = set()
+        placedNeg = set()
+
+        ans = []
+
+        backTrack(0)
+        return len(ans)
+        
